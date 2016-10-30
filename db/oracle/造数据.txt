@@ -1,0 +1,8 @@
+存储过程		表名			数量
+P_dis_bank_card_Proc	ac_dis_bank_card	1494300
+P_his_piggy_income_Proc	his_piggy_income	34399871
+P_as_piggy_frz_Proc	as_piggy_frz		1869111
+P_fund_acct_dtl_Proc	ac_fund_acct_bal_dtl	2233872
+P_dis_trade_plan_Proc	ac_dis_acct_trade_plan	6954211
+
+show errors procedure procedure_name 

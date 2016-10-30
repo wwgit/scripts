@@ -1,0 +1,12 @@
+
+declare
+
+  -- Non-scalar parameters require additional processing 
+  --discodes myvarry_list;
+  --protocaltypes myvarry_list;
+begin
+  P_table_Proc(1);
+end;
+
+622588 121 3043060
+6225+88

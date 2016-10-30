@@ -1,0 +1,17 @@
+/usr/tcl/bin/expect <<-EOF
+
+spawn scp -r /data/webserver/$tomcatname tomcat@$ip:/usr/local
+
+expect "*$ip*"
+
+set timeout 1000
+
+send "$password
+"
+
+
+set timeout 1000
+
+expect eof
+
+EOF

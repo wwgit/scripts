@@ -1,0 +1,50 @@
+重启ORACLE:
+以oracle9i为例
+（1） 以oracle身份登录数据库，命令：su – oracle
+（2） 进入Sqlplus控制台，命令：sqlplus /nolog
+									   sqlplus LPT3_XM128_TRADE/howbuy_qa_qwerVBNM
+（3） 以系统管理员登录，命令：connect / as sysdba
+
+（4） 启动数据库，命令：startup
+（5） 如果是关闭数据库，命令：shutdown immediate
+（6） 退出sqlplus控制台，命令：exit
+（7） 进入监听器控制台，命令：lsnrctl
+（8） 启动监听器，命令：start
+（9） 退出监听器控制台，命令：exit
+（10） 重启数据库结束
+
+awrrpt report:
+@$ORACLE_HOME/rdbms/admin/awrrpt.sql
+
+//查看archive和闪回功能是否开启
+select name, log_mode, flashback_on from v$database;
+
+shutdown immediate;
+startup mount;
+
+alter database flashback on;//开启闪回
+alter database flashback off;//关闭闪回
+alter database archivelog;//开启归档
+alter database noarchivelog;//关闭归档
+alter database open resetlogs;
+alter database open;
+
+//oracle数据库的各种路径配置
+select * from dba_directories;
+
+
+//schema备份命令：oracle_schema_name是具体的schema名字，dmp_file_name是指定导出的dmp文件名
+expdp \'/ as sysdba\' schemas=oracle_schema_name directory=DUMP_DIR dumpfile=dmp_file_name exclude=statistics 
+expdp lpt8_xm128_trade/howbuy_qa_qwerVBNM directory=DUMP_DIR dumpfile=tp_dis_trade_app_rec_bk_lct.dmp tables=tp_dis_trade_app_rec exclude=statistics
+
+//schema恢复命令： dumpfile=具体指定的file名字，remap_schema=老的schema名:新的schema名
+impdp \'/ as sysdba\'  directory=DATA_PUMP_DIR dumpfile=${dmpFile} remap_schema=${fromUser}_${dataBase}:${toUser}_${dataBase}
+impdp LCT_XM128_TRADE/LCT_XM128_TRADE directory=DUMP_DIR dumpfile=tp_dis_trade_app_rec_bk_lct.dmp tables=lpt8_xm128_trade.tp_dis_trade_app_rec remap_schema=lpt8_xm128_trade:LCT_XM128_TRADE
+
+
+impdp LCT_XM128_TRADE/LCT_XM128_TRADE directory=DUMP_DIR dumpfile=tp_dis_trade_app_rec_bk_lct.dmp tables=lpt8_xm128_trade.tp_dis_trade_app_rec remap_schema=lpt8_xm128_trade:lpt8_xm128_trade
+
+
+//扩表空间
+alter tablespace trade add datafile '+DATA' size 10000M autoextend on next 20M maxsize 32000M;
+

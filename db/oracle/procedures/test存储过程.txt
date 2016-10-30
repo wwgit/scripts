@@ -1,0 +1,48 @@
+CREATE OR REPLACE PROCEDURE P_table_Proc(Count in number  ) IS
+ V_RECEIVE_ORG_CODE         VARCHAR2(50) := 'W011302020515';
+v_count     number;
+BEGIN
+   select Count - count(table_d) into v_count from trade.tempP_table;
+   for i in 1 .. v_count loop
+     insert INTO trade.tempp_table
+     (table_d)
+     values
+     (V_RECEIVE_ORG_CODE);
+    if (mod(i, 1000) = 0) then
+      dbms_output.put_line('已经执行了'||i||'个客户');
+      commit;
+    end if;
+  end loop;
+  commit;
+
+exception
+    when others then
+      dbms_output.put_line('exception------');
+      DBMS_OUTPUT.put_line('sqlcode : ' ||sqlcode);
+      DBMS_OUTPUT.put_line('sqlerrm : ' ||sqlerrm);
+      rollback;
+END P_table_Proc;
+
+
+
+
+
+
+
+declare
+  -- Non-scalar parameters require additional processing 
+  --discodes myvarry_list;
+  --protocaltypes myvarry_list;
+begin
+  P_table_Proc(50000);
+end;
+
+
+
+   select Count - count(cust_no),id_type,invst_type,cust_stat,reg_dt,stimestamp,
+          id_always_valid_flag,id_vrfy_stat,reg_outlet_code,reg_trade_chan,
+          reg_dis_code,updated_stimestamp
+          into v_count,V_ID_TYPE,V_INVST_TYPE,CUST_STAT,V_REG_DT,V_STIMESTAMP,
+               V_ID_ALWAYS_VALID_FLAG,V_ID_VRFY_STAT,V_REG_OUTLET_CODE, V_REG_TRADE_CHAN,
+               V_REG_DIS_CODE,V_UPDATED_STIMESTAMP
+    from lpt4_trade.pro_test;
