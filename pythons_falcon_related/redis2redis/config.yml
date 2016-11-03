@@ -1,0 +1,12 @@
+addr: 
+    des_host: 10.15.107.143
+    des_port: 7430
+    src_host: 10.15.208.71
+    src_port: 16379
+    get_key_limit: 10000000
+    fetch_process_count: 5
+    get_pipe_count: 10000
+    send_process_count: 1
+    send_pipe_count: 1000
+    st_slot: 0
+    ed_slot: 8383
